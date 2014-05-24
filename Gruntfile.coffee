@@ -7,6 +7,8 @@ module.exports = (grunt) ->
       destPrefix: 'app/public'
   
     bowercopy:
+      options:
+        clean: true
       bootstrap:
         files:
           'app/public/css': 'bower_components/bootstrap/dist/css'
