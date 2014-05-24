@@ -1,0 +1,40 @@
+#!/bin/bash
+
+# If app/config.coffee has been changed, make sure that you're not being stupid
+# and checking in something sensitve.
+check_config () {
+  if git status --short | grep ^M | grep "app/config.coffee" &> /dev/null ; then
+    echo "Modifying config.coffee"
+    git diff --cached app/config.coffee
+
+    exec < /dev/tty
+    read -p "[U]nstage app/config.coffee, [A]bort, or [C]ommit? (default: A) " uac
+    exec <&-
+    [ -z "$uac" ] && uac="A"
+    case "$uac" in
+      [Uu]*)
+        git reset -- app/config.coffee &> /dev/null ;;
+      [Cc]*)
+        ;;
+      *)
+        return 1 ;;
+    esac
+  fi
+  
+  return 0
+}
+
+check_lint () {
+  git stash --keep-index &> /dev/null
+  grunt lint
+  retval=$?
+  git stash apply &> /dev/null
+  return $retval
+}
+
+exec 1>&2
+
+check_config || exit $?
+check_lint || exit $?
+
+exit 0

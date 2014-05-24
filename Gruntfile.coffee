@@ -1,4 +1,5 @@
 appFiles = ['app/**/*.coffee', '!app/public/**/*']
+gitHooks = 'git/hooks/*'
 gruntFiles = 'Gruntfile.coffee'
 
 module.exports = (grunt) ->
@@ -24,10 +25,22 @@ module.exports = (grunt) ->
       grunt: gruntFiles
       app: appFiles
       
+    copy:
+      git:
+        options:
+          mode: '0755'
+        src: gitHooks
+        dest: '.git/hooks/'
+        expand: true
+        flatten: true
+      
     watch:
       app:
         files: appFiles
         tasks: 'coffeelint:app'
+      git:
+        files: gitHooks
+        tasks: 'copy:git'
       grunt:
         files: gruntFiles
         tasks: 'coffeelint:grunt'
@@ -37,6 +50,9 @@ module.exports = (grunt) ->
   
   grunt.loadNpmTasks 'grunt-bowercopy'
   grunt.loadNpmTasks 'grunt-coffeelint'
+  grunt.loadNpmTasks 'grunt-contrib-copy'
   grunt.loadNpmTasks 'grunt-contrib-watch'
   grunt.loadNpmTasks 'grunt-npm-install'
+  
+  grunt.registerTask 'lint', ['coffeelint']
   
