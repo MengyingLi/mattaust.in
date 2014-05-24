@@ -6,6 +6,11 @@ module.exports = (grunt) ->
   grunt.initConfig
     options:
       destPrefix: 'app/public'
+
+    bashlint:
+      options:
+        force: true
+      git: gitHooks
   
     bowercopy:
       options:
@@ -40,7 +45,7 @@ module.exports = (grunt) ->
         tasks: 'coffeelint:app'
       git:
         files: gitHooks
-        tasks: 'copy:git'
+        tasks: ['bashlint:git', 'copy:git']
       grunt:
         files: gruntFiles
         tasks: 'coffeelint:grunt'
@@ -52,7 +57,8 @@ module.exports = (grunt) ->
   grunt.loadNpmTasks 'grunt-coffeelint'
   grunt.loadNpmTasks 'grunt-contrib-copy'
   grunt.loadNpmTasks 'grunt-contrib-watch'
+  grunt.loadNpmTasks 'grunt-lint-bash'
   grunt.loadNpmTasks 'grunt-npm-install'
   
-  grunt.registerTask 'lint', ['coffeelint']
+  grunt.registerTask 'lint', ['bashlint', 'coffeelint']
   
