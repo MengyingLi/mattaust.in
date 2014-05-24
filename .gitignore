@@ -1,0 +1,7 @@
+/bower_components/
+/node_modules/
+
+/app/public/css/bootstrap*
+/app/public/fonts/glyphicons*
+/app/public/js/bootstrap*
+/app/public/js/jquery*

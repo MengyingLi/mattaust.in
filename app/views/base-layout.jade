@@ -1,0 +1,18 @@
+doctype html
+html(lang='en-US')
+
+  head
+    meta(charset='utf-8')
+    meta(http-equiv='X-UA-Compatible', content='IE=edge')
+    meta(name='viewport', content='width=device-width, initial-scale=1')
+    title #{title? title : "matt austin"}
+    link(href='/css/bootstrap.css', rel='stylesheet', media='screen')
+
+  body
+    block header
+
+    .container
+      block content
+    
+    script(src='/js/jquery.js')
+    script(src='/js/bootstrap.js')
